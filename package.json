@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/SpIurge/VirtualCasino#readme",
   "dependencies": {
+    "bootstrap-icons": "^1.13.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mysql2": "^3.15.3"
