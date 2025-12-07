@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <script src="/js/blackjackLogic.js" defer></script>
+</head>
+<body>
+    <div>
+        <div>Dealer</div>
+        <p>Cards: <span id="dealerCardNumber">?</span></p>
+    </div>
+
+    <div>
+        <div>Player</div>
+        <div>Score: <span id="playerScore">0</span></div>
+        <p>Cards: <span id="playerCardNumber"></span></p>
+
+        <div class="controls">
+            <button id="hitBtn" onclick="playerHit()">Hit</button>
+            <button id="standBtn" onclick="playerStand()">Stand</button>
+            <button id="doubleBtn" onclick="playerDouble()">Double</button>
+            <button id="surrenderBtn" onclick="playerSurrender()">Surrender</button>
+        </div>
+    </div>
+
+    <div>
+        <div>CPU 1</div>
+        <p>Cards: <span id="cpu1CardNumber"></span></p>
+    </div>
+
+    <div>
+        <div>CPU 2</div>
+        <p>Cards: <span id="cpu2CardNumber"></span></p>
+    </div>
+
+    <div>
+        <div>CPU 3</div>
+        <p>Cards: <span id="cpu3CardNumber"></span></p>
+    </div>
+
+    <div id="gameInfo">
+
+    </div>
+</body>
+</html>
