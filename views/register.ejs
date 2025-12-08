@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Casino - Register</title>
+</head>
+<body>
+  <%- include('partials/nav'); %>
+
+  <h1>Create Account</h1>
+
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+
+  <form action="/register" method="POST">
+    <div>
+      <label>Username:
+        <input type="text" name="username" required>
+      </label>
+    </div>
+    <div>
+      <label>Password:
+        <input type="password" name="password" required>
+      </label>
+    </div>
+    <button type="submit">Register</button>
+  </form>
+
+  <p>Already have an account? <a href="/login">Log in</a></p>
+</body>
+</html>

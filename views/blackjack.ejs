@@ -7,6 +7,13 @@
     <script src="/js/blackjackLogic.js" defer></script>
 </head>
 <body>
+    <%- include('partials/nav'); %>
+
+    <h1>Blackjack Table</h1>
+    <% if (dealer) { %>
+      <p>Current Dealer: <strong><%= dealer.name %></strong> (<%= dealer.difficulty %>)</p>
+    <% } %>
+
     <div>
         <div>Dealer</div>
         <p>Cards: <span id="dealerCardNumber">?</span></p>
@@ -40,8 +47,6 @@
         <p>Cards: <span id="cpu3CardNumber"></span></p>
     </div>
 
-    <div id="gameInfo">
-
-    </div>
+    <pre id="gameInfo"></pre>
 </body>
 </html>

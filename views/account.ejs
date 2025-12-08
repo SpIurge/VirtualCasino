@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Casino - Account</title>
+</head>
+<body>
+  <%- include('partials/nav'); %>
+
+  <h1>Welcome, <%= user.username %></h1>
+
+  <section>
+    <h2>Account Stats</h2>
+    <ul>
+      <li>Wallet: $<%= user.wallet %></li>
+      <li>Total Wins: <%= user.total_wins %></li>
+      <li>Total Profit: $<%= user.total_profit %></li>
+      <li>Total Money Invested: $<%= user.total_invested %></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Choose a Dealer</h2>
+    <form action="/chooseDealer" method="POST">
+      <select name="dealerId" required>
+        <% dealers.forEach(d => { %>
+          <option value="<%= d.id %>"><%= d.name %> (<%= d.difficulty %>)</option>
+        <% }); %>
+      </select>
+      <button type="submit">Play Blackjack</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Recent History</h2>
+    <% if (history.length === 0) { %>
+      <p>No games recorded yet.</p>
+    <% } else { %>
+      <table border="1" cellpadding="4">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Dealer</th>
+            <th>Result</th>
+            <th>Bet</th>
+            <th>Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% history.forEach(row => { %>
+            <tr>
+              <td><%= row.played_at %></td>
+              <td><%= row.dealer_name || '-' %></td>
+              <td><%= row.result %></td>
+              <td>$<%= row.bet_amount %></td>
+              <td>$<%= row.profit_change %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
+</body>
+</html>
