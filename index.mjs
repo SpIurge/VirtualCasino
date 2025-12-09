@@ -57,10 +57,6 @@ app.get('/home',(req,res)=>{
     res.render('home.ejs')
 });
 
-app.get("/blackjack", (req, res) => {
-  res.render("blackjack.ejs");        
-});
-
 app.get("/slotMachine", (req, res) => {
   res.render("slotMachine.ejs");    
 });
