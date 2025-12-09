@@ -1,11 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Virtual Casino - My CPUs</title>
   
 </head>
 <body>
-    
+  <%- include('partials/nav'); %>
+
+  <h1>My Custom CPUs</h1>
+
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+
+  <section>
+    <h2>Create a New CPU</h2>
+    <form action="/cpus" method="POST">
+      <div>
+        <label>Name:
+          <input type="text" name="name" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Confidence (0–100):
+          <input type="number" name="confidence" min="0" max="100" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Risk (0–100): 
+          <input type="number" name="risk" min="0" max="100" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Surrender Rate (0–100):
+          <input type="number" name="surrenderRate" min="0" max="100" required>
+        </label>
+      </div>
+
+      <div>
+        <label>Image URL (optional):
+          <input type="text" name="image" placeholder="https://...">
+        </label>
+      </div>
+
+      <button type="submit">Create CPU</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Your CPUs</h2>
+    <% if (cpus.length === 0) { %>
+      <p>You haven't created any CPUs yet.</p>
+    <% } else { %>
+      <table border="1" cellpadding="4">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Confidence</th>
+            <th>Risk</th>
+            <th>Surrender Rate</th>
+            <th>Image</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% cpus.forEach(cpu => { %>
+            <tr>
+              <td><%= cpu.name %></td>
+              <td><%= cpu.confidence %></td>
+              <td><%= cpu.risk %></td>
+              <td><%= cpu.surrenderRate %></td>
+              <td>
+                <% if (cpu.image) { %>
+                  <img src="<%= cpu.image %>" alt="<%= cpu.name %>" style="max-width:80px; max-height:80px;">
+                <% } else { %>
+                  -
+                <% } %>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+  </section>
 </body>
 </html>
