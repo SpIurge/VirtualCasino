@@ -165,9 +165,8 @@ app.get('/account', requireLogin, async (req, res) => {
     );
 
     const [historyRows] = await pool.query(
-      `SELECT h.played_at, h.result, h.bet_amount, h.profit_change, d.name AS dealer_name
+      `SELECT h.played_at, h.result, h.bet_amount, h.profit_change
        FROM history h
-       LEFT JOIN dealers d ON h.dealer_id = d.id
        WHERE h.user_id = ?
        ORDER BY h.played_at DESC
        LIMIT 10`,
