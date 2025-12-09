@@ -87,6 +87,7 @@
                                         <th>Risk</th>
                                         <th>Surrender Rate</th>
                                         <th>Image</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,9 +113,13 @@
                                                         -
                                                         <% } %>
                                             </td>
+                                            <td>
+                                                <a href="/cpus/<%= cpu.cpuld %>/edit">Edit CPU</a>
+                                            </td>
                                         </tr>
                                         <% }); %>
                                 </tbody>
+
                             </table>
                             <% } %>
                 </section>
@@ -139,4 +144,5 @@
                     bindSlider('surrenderRate');
                 </script>
 </body>
+
 </html>

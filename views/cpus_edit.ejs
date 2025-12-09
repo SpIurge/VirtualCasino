@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit CPU - <%= cpu.name %></title>
+  <style>
+    .slider-row {
+      margin-bottom: 10px;
+    }
+    .slider-row label {
+      display: inline-block;
+      width: 160px;
+    }
+    .slider-value {
+      display: inline-block;
+      width: 40px;
+      text-align: right;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/nav'); %>
+
+  <h1>Edit CPU: <%= cpu.name %></h1>
+
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+
+  <form action="/cpus/<%= cpu.cpuld %>/edit" method="POST">
+    <div>
+      <label>Name:
+        <input type="text" name="name" value="<%= cpu.name %>" required>
+      </label>
+    </div>
+
+    <div class="slider-row">
+      <label for="confidence">Confidence (0.01–1):</label>
+      <input
+        type="range"
+        id="confidence"
+        name="confidence"
+        min="0.01"
+        max="1"
+        step="0.01"
+        value="<%= cpu.confidence %>"
+        required
+      >
+      <span id="confidenceValue" class="slider-value"><%= Number(cpu.confidence).toFixed(2) %></span>
+    </div>
+
+    <div class="slider-row">
+      <label for="risk">Risk (0.01–1):</label>
+      <input
+        type="range"
+        id="risk"
+        name="risk"
+        min="0.01"
+        max="1"
+        step="0.01"
+        value="<%= cpu.risk %>"
+        required
+      >
+      <span id="riskValue" class="slider-value"><%= Number(cpu.risk).toFixed(2) %></span>
+    </div>
+
+    <div class="slider-row">
+      <label for="surrenderRate">Surrender Rate (0.01–1):</label>
+      <input
+        type="range"
+        id="surrenderRate"
+        name="surrenderRate"
+        min="0.01"
+        max="1"
+        step="0.01"
+        value="<%= cpu.surrenderRate %>"
+        required
+      >
+      <span id="surrenderRateValue" class="slider-value"><%= Number(cpu.surrenderRate).toFixed(2) %></span>
+    </div>
+
+    <div>
+      <label>Image URL (optional):
+        <input
+          type="text"
+          name="image"
+          value="<%= cpu.image || '' %>"
+          placeholder="https://..."
+        >
+      </label>
+    </div>
+
+    <button type="submit">Save Changes</button>
+    <a href="/cpus">Cancel</a>
+  </form>
+
+  <script>
+    function bindSlider(sliderId, initialValue) {
+      const slider = document.getElementById(sliderId);
+      const output = document.getElementById(sliderId + 'Value');
+      if (!slider || !output) return;
+
+      const update = () => {
+        output.textContent = parseFloat(slider.value).toFixed(2);
+      };
+
+      if (initialValue !== undefined) {
+        slider.value = initialValue;
+      }
+      update();
+      slider.addEventListener('input', update);
+    }
+
+    bindSlider('confidence');
+    bindSlider('risk');
+    bindSlider('surrenderRate');
+  </script>
+</body>
+</html>

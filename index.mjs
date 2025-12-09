@@ -270,6 +270,69 @@ app.post('/cpus', requireLogin, async (req, res) => {
   }
 });
 
+app.get('/cpus/:id/edit', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+  const cpuId = req.params.id;
+
+  try {
+    const [rows] = await pool.query(
+      'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE cpuld = ? AND userId = ?',
+      [cpuId, userId]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).send('CPU not found or not yours.');
+    }
+
+    res.render('cpus_edit', {
+      cpu: rows[0],
+      error: null
+    });
+  } catch (err) {
+    console.error('Error loading CPU for edit:', err);
+    res.status(500).send('Server error loading CPU.');
+  }
+});
+
+// Handle edit form submission
+app.post('/cpus/:id/edit', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+  const cpuId = req.params.id;
+  const { name, confidence, risk, surrenderRate, image } = req.body;
+
+  try {
+    const conf = parseFloat(confidence);
+    const r = parseFloat(risk);
+    const surr = parseFloat(surrenderRate);
+
+    if (
+      !name ||
+      isNaN(conf) || conf < 0.01 || conf > 1 ||
+      isNaN(r)    || r    < 0.01 || r    > 1 ||
+      isNaN(surr) || surr < 0.01 || surr > 1
+    ) {
+      const [rows] = await pool.query(
+        'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE cpuld = ? AND userId = ?',
+        [cpuId, userId]
+      );
+
+      if (rows.length === 0) {
+        return res.status(404).send('CPU not found or not yours.');
+      }
+
+      return res.render('cpus_edit', {
+        cpu: rows[0],
+        error: 'Name and all sliders must be between 0.01 and 1.'
+      });
+    }
+    res.redirect('/cpus');
+  } catch (err) {
+    console.error('Error updating CPU:', err);
+    res.status(500).send('Server error updating CPU.');
+  }
+});
+
+
 // for History + stats
 app.post('/api/roundResult', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
