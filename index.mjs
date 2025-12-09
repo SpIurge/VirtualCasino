@@ -373,7 +373,7 @@ app.post('/cpus/:id/edit', requireLogin, async (req, res) => {
 
 
 // for History + stats
-app.post('/api/roundResult', requireLogin, async (req, res) => {
+app.post('/api/roundResult', requireLogin, async (req, res) => { 
   const userId = req.session.user.id;
   const { dealerId, result, betAmount, profitChange } = req.body;
 
