@@ -3,46 +3,20 @@ let dealerCards = [];
 let cpuPlayers = [];
 let deckId = null;
 
-// TEMPORARY PLAYERS 
-// I haven't bothered to connect the database to this file yet - Lyn
-cpuPlayers = [
-    {
-        name: "CPU 1",
-        domId: "cpu1CardNumber",
-        cards: [],
-        surrendered: false,
-        doubled: false,
-        stats: {
-            confidence: 0.3,
-            risk: 0.2,
-            surrenderRate: 0.4
-        }
-    },
-    {
-        name: "CPU 2",
-        domId: "cpu2CardNumber",
-        cards: [],
-        surrendered: false,
-        doubled: false,
-        stats: {
-            confidence: 0.5,
-            risk: 0.4,
-            surrenderRate: 0.2
-        }
-    },
-    {
-        name: "CPU 3",
-        domId: "cpu3CardNumber",
-        cards: [],
-        surrendered: false,
-        doubled: false,
-        stats: {
-            confidence: 0.8,
-            risk: 0.7,
-            surrenderRate: 0.05
-        }
+const selectedCpus = JSON.stringify(cpus);
+
+cpuPlayers = selectedCpus.map((cpu, index) => ({
+    name: cpu.name,
+    domId: `cpu${index + 1}CardNumber`,
+    cards: [],
+    surrendered: false,
+    doubled: false,
+    stats: {
+        confidence: cpu.confidence,
+        risk: cpu.risk,
+        surrenderRate: cpu.surrenderRate
     }
-];
+}));
 
 
 // Site: https://deckofcardsapi.com/

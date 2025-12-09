@@ -156,14 +156,14 @@ app.get('/account', requireLogin, async (req, res) => {
       [userId]
     );
 
-    const [dealers] = await pool.query(
-      'SELECT id, name, difficulty FROM dealers WHERE is_active = 1 ORDER BY difficulty'
-    );
+    const [cpus] = await pool.query(
+      `SELECT * FROM cpus`
+    )
 
     res.render('account', {
       user: userRow,
       history: historyRows,
-      dealers
+      cpus
     });
   } catch (err) {
     console.error('Error loading account page:', err);
@@ -171,29 +171,34 @@ app.get('/account', requireLogin, async (req, res) => {
   }
 });
 
-// Choose dealer and go to blackjack table
-app.post('/chooseDealer', requireLogin, async (req, res) => {
-  const { dealerId } = req.body;
-  req.session.currentDealerId = dealerId || null;
+// Choose players and go to blackjack table
+app.post('/choosePlayers', requireLogin, async (req, res) => {
+  const { cpuIds } = req.body;
+
+  req.session.selectedCpuIds = cpuIds || [];
+
   res.redirect('/blackjack');
 });
 
 // Blackjack game view (protected)
 app.get('/blackjack', requireLogin, async (req, res) => {
-  let dealer = null;
+  let cpus = [];
 
   try {
-    if (req.session.currentDealerId) {
-      const [rows] = await pool.query(
-        'SELECT id, name, difficulty FROM dealers WHERE id = ?',
-        [req.session.currentDealerId]
+    if (req.session.selectedCpuIds && req.session.selectedCpuIds.length > 0) {
+      const ids = req.session.selectedCpuIds;
+
+      const [cpuRows] = await pool.query(
+        `SELECT * FROM cpus WHERE id IN (${ids.map(() => '?').join(',')})`,
+        ids
       );
-      if (rows.length > 0) {
-        dealer = rows[0];
-      }
+
+      cpus = cpuRows;
     }
 
-    res.render('blackjack', { dealer });
+    // Render blackjack with BOTH dealer + selected CPUs
+    res.render('blackjack', { cpus });
+
   } catch (err) {
     console.error('Error loading blackjack view:', err);
     res.status(500).send('Server error loading blackjack.');

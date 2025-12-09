@@ -20,13 +20,16 @@
   </section>
 
   <section>
-    <h2>Choose a Dealer</h2>
-    <form action="/chooseDealer" method="POST">
-      <select name="dealerId" required>
-        <% dealers.forEach(d => { %>
-          <option value="<%= d.id %>"><%= d.name %> (<%= d.difficulty %>)</option>
+    <h2>Choose 3 Players</h2>
+    <form action="/choosePlayers" method="POST">
+      <select id="cpuSelect" name="cpuIds[]" required multiple size="6">
+        <% cpus.forEach(cpu => { %>
+          <option value="<%= cpu.id %>"><%= cpu.name %></option>
         <% }); %>
       </select>
+
+      <p id="error" style="color:red;"></p>
+
       <button type="submit">Play Blackjack</button>
     </form>
   </section>
@@ -60,5 +63,36 @@
       </table>
     <% } %>
   </section>
+
+  <script>
+    const cpus = document.getElementById("cpuSelect");
+    const error = document.getElementById("error");
+    const form = document.querySelector("form");
+
+    // Prevent selecting more than 4 CPUs
+    cpus.addEventListener("change", () => {
+      const selected = [...cpus.options].filter(o => o.selected);
+
+      if (selected.length > 3) {
+        selected[selected.length - 1].selected = false;
+        error.textContent = "You must select exactly 3 CPUs.";
+      } 
+      else if (selected.length < 3) {
+        error.textContent = "Please select exactly 3 CPUs.";
+      } 
+      else {
+        error.textContent = ""; 
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      const selectedCount = [...cpus.options].filter(o => o.selected).length;
+
+      if (selectedCount !== 3) {
+        e.preventDefault();
+        error.textContent = "You need to select *exactly* 3 CPUs before continuing.";
+      }
+    });
+  </script>
 </body>
 </html>
