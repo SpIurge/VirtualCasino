@@ -53,11 +53,11 @@ app.get('/', (req, res) => {
 });
 
 // AUTH ROUTES
-app.get('/home',(req,res)=>{
+app.get('/home',requireLogin,(req,res)=>{
     res.render('home.ejs')
 });
 
-app.get("/slotMachine", (req, res) => {
+app.get("/slotMachine",requireLogin, (req, res) => {
   res.render("slotMachine.ejs");    
 });
 
