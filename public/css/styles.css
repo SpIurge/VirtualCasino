@@ -5,7 +5,8 @@ nav {
     background-color: #053b1a;
 }
 
-#leftNav, #rightNav {
+#leftNav,
+#rightNav {
     display: flex;
     justify-content: space-between;
     gap: 25px;
@@ -43,16 +44,17 @@ h1 {
     border: 1px solid white;
 }
 
-#login, #loginForm {
+#login,
+#loginForm {
     text-align: center;
     justify-items: center;
 }
 
-#login input {
+input {
     margin-bottom: 15px;
 }
 
-#loginBtn {
+.smallBtn {
     padding: 5px 15px;
 }
 
@@ -106,16 +108,59 @@ select:focus {
 }
 
 table {
+    width: 100%;
     border-collapse: collapse;
     border: 3px solid #032510;
 }
 
 th {
     background-color: #053b1a;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
-#dealerContainer, #playerContainer, .cpuContainer {
-    
+#cpuContainer {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+th,
+td {
+    padding: 6px;
+    border: 3px solid #032510;
+}
+
+
+#dealerContainer,
+#playerContainer,
+.cpuContainer {
+    margin: 10px;
+    padding: 2%;
+    border: 1px solid white;
+}
+
+#controls {
+    display: flex;
+    justify-content: space-around;
+}
+
+#cpusContainer {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.cpuContainer {
+    width: 35%;
+}
+
+.playerCard {
+    margin-bottom: 5px;
+    padding: 10px;
+    border: 1px solid white;
 }
 
 .modal {
@@ -140,6 +185,10 @@ th {
     margin-top: 15px;
     padding: 10px 20px;
     cursor: pointer;
+}
+
+input[type="range"] {
+    accent-color: #1aff77;
 }
 
 .slider-row {

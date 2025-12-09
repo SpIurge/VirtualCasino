@@ -8,6 +8,7 @@ const cpuDataElement = document.getElementById("cpu-data");
 const selectedCpus = JSON.parse(cpuDataElement.dataset.cpus);
 
 cpuPlayers = selectedCpus.map((cpu, index) => ({
+    id: index + 1,
     name: cpu.name,
     domId: `cpu${index + 1}CardNumber`,
     cards: [],
@@ -254,33 +255,38 @@ async function finishRound() {
 
     await cpuTurns(dealerUpValue);
 
+    // Dealer finishes their turn
     dealerCards = await dealerPlay(deckId, dealerCards);
 
-    for (let cpu of cpuPlayers) {
-        const imgContainer = document.getElementById("cpu" + cpu.id + "Cards");
-        imgContainer.replaceChildren();
-
-        for (let card of cpu.cards) {
-            const newImg = document.createElement("img");
-            newImg.src = card.image;
-            newImg.width = 80;
-            imgContainer.append(newImg);
-        }
-    }
-
+    // ----- REVEAL DEALER CARDS -----
     const dealerImgContainer = document.getElementById("dealerCards");
     dealerImgContainer.replaceChildren();
 
     for (let card of dealerCards) {
-        const newImg = document.createElement("img");
-        newImg.src = card.image;
-        newImg.width = 80;
-        dealerImgContainer.append(newImg);
+        const img = document.createElement("img");
+        img.src = card.image;
+        img.width = 80;
+        dealerImgContainer.append(img);
     }
 
-    const betDataElement = document.getElementById("bet-data");
-    const bet = Number(betDataElement.dataset.bet);
+    // ----- REVEAL CPU CARDS -----
+    for (let cpu of cpuPlayers) {
+        const cpuImgContainer = document.getElementById(`cpu${cpu.id}Cards`);
+        cpuImgContainer.replaceChildren();
 
+        for (let card of cpu.cards) {
+            const img = document.createElement("img");
+            img.src = card.image;  // <-- flip to real card
+            img.width = 80;
+            cpuImgContainer.append(img);
+        }
+    }
+
+    // Update scores and counts
+    updateDOM();
+
+    // Determine result
+    const bet = Number(document.getElementById("bet-data").dataset.bet);
     const { result, profit } = getPlayerOutcome(bet);
 
     const summary =

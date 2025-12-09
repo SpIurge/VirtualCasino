@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Total Players</title>
+    <%- include('partials/head'); %>
+    <title>Virtual Casino - Total Players</title>
 </head>
 <body>
     <%- include('partials/nav'); %>
     
     <h1 class="text-center"> Total Players </h1>
 
-    <% for(let i=0; i < rows.length; i++) { %>
-        <div class="player-card">
-            <h2> Username: <%= rows[i].username %> </h2>
-            <p> Wallet: $<%= rows[i].wallet %> </p>
-            <p> Total Wins: <%= rows[i].total_wins %> </p>
-            <p> Total Profit: $<%= rows[i].total_profit %> </p>
-            <p> Total Invested: $<%= rows[i].total_invested %> </p>
-            <br><br>
-        </div>
-    <% } %>
+    <div class="pageContent">
+        <% for(let i=0; i < rows.length; i++) { %>
+            <div class="playerCard">
+                <h2> Username: <%= rows[i].username %> </h2>
+                <p> Wallet: $<%= rows[i].wallet %> </p>
+                <p> Total Wins: <%= rows[i].total_wins %> </p>
+                <p> Total Profit: $<%= rows[i].total_profit %> </p>
+                <p> Total Invested: $<%= rows[i].total_invested %> </p>
+            </div>
+        <% } %>
+    </div>
 </body>
 </html>

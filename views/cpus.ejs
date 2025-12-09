@@ -1,115 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('partials/head'); %>
-  <title>Virtual Casino - My CPUs</title>
+    <title>Virtual Casino - My CPUs</title>
 </head>
+
 <body>
   <%- include('partials/nav'); %>
 
-  <h1>My Custom CPUs</h1>
+    <h1>My Custom CPUs</h1>
 
-  <% if (error) { %>
-    <p style="color:red;"><%= error %></p>
-  <% } %>
+    <div class="pageContent">
+      <% if (error) { %>
+        <p style="color:red; font-weight: bold;">
+          <%= error %>
+        </p>
+        <% } %>
 
-  <section>
-    <h2>Create a New CPU</h2>
-    <form action="/cpus" method="POST">
-      <div>
-        <label>Name:
-          <input type="text" name="name" required>
-        </label>
-      </div>
+          <section>
+            <h2>Create a New CPU</h2>
 
-      <div>
-        <label>Confidence (0.01–1):
-          <input type="range" name="confidence" min="0.01" max="1" step="0.01" value="0.5"
-                oninput="this.nextElementSibling.value = this.value">
-          <output>0.5</output>
-        </label>
-      </div>
+            <form action="/cpus" method="POST">
+              <div>
+                <label>Name:
+                  <input type="text" name="name" required>
+                </label>
+              </div>
 
-      <div>
-        <label>Risk (0.01–1): 
-          <input type="range" name="risk" min="0.01" max="1" step="0.01" value="0.5"
-                oninput="this.nextElementSibling.value = this.value">
-          <output>0.5</output>
-        </label>
-      </div>
+              <div>
+                <label>Confidence (0.01–1):
+                  <input type="range" name="confidence" min="0.01" max="1" step="0.01" value="0.5"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>0.5</output>
+                </label>
+              </div>
 
-      <div>
-        <label>Surrender Rate (0.01–1):
-          <input type="range" name="surrenderRate" min="0.01" max="1" step="0.01" value="0.5"
-                oninput="this.nextElementSibling.value = this.value">
-          <output>0.5</output>
-        </label>
-      </div>
-      
-      <div>
-        <label>Image URL (optional):
-          <input type="text" name="image" placeholder="https://...">
-        </label>
-      </div>
+              <div>
+                <label>Risk (0.01–1):
+                  <input type="range" name="risk" min="0.01" max="1" step="0.01" value="0.5"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>0.5</output>
+                </label>
+              </div>
 
-      <button type="submit">Create CPU</button>
-    </form>
-  </section>
+              <div>
+                <label>Surrender Rate (0.01–1):
+                  <input type="range" name="surrenderRate" min="0.01" max="1" step="0.01" value="0.5"
+                    oninput="this.nextElementSibling.value = this.value">
+                  <output>0.5</output>
+                </label>
+              </div>
 
-  <section>
-    <h2>Your CPUs</h2>
-    <% if (cpus.length === 0) { %>
-      <p>You haven't created any CPUs yet.</p>
-    <% } else { %>
-      <table border="1" cellpadding="4">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Confidence</th>
-            <th>Risk</th>
-            <th>Surrender Rate</th>
-            <th>Image</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% cpus.forEach(cpu => { %>
-            <tr>
-              <td><%= cpu.name %></td>
-              <td><%= cpu.confidence %></td>
-              <td><%= cpu.risk %></td>
-              <td><%= cpu.surrenderRate %></td>
-              <td>
-                <% if (cpu.image) { %>
-                  <img src="<%= cpu.image %>" alt="<%= cpu.name %>" style="max-width:80px; max-height:80px;">
-                <% } else { %>
-                  -
+              <div>
+                <label>Image URL (optional):
+                  <input type="text" name="image" placeholder="https://...">
+                </label>
+              </div>
+
+              <button class="smallBtn" type="submit">Create CPU</button>
+            </form>
+          </section>
+
+          <section>
+            <h2>Your CPUs</h2>
+            <% if (cpus.length===0) { %>
+              <p>You haven't created any CPUs yet.</p>
+              <% } else { %>
+                <table border="1" cellpadding="4">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Confidence</th>
+                      <th>Risk</th>
+                      <th>Surrender Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% cpus.forEach(cpu=> { %>
+                      <tr>
+                        <td>
+                          <%= cpu.name %>
+                        </td>
+                        <td>
+                          <%= cpu.confidence %>
+                        </td>
+                        <td>
+                          <%= cpu.risk %>
+                        </td>
+                        <td>
+                          <%= cpu.surrenderRate %>
+                        </td>
+                      </tr>
+                      <% }); %>
+                  </tbody>
+                </table>
                 <% } %>
-              </td>
-            </tr>
-          <% }); %>
-        </tbody>
-      </table>
-    <% } %>
-  </section>
+          </section>
+    </div>
 
-  <script>
-    function bindSlider(sliderId) {
-      const slider = document.getElementById(sliderId);
-      const output = document.getElementById(sliderId + 'Value');
-      if (!slider || !output) return;
 
-      const update = () => {
-        // force 2 decimal places for display
-        output.textContent = parseFloat(slider.value).toFixed(2);
-      };
+    <script>
+      function bindSlider(sliderId) {
+        const slider = document.getElementById(sliderId);
+        const output = document.getElementById(sliderId + 'Value');
+        if (!slider || !output) return;
 
-      update();
-      slider.addEventListener('input', update);
-    }
+        const update = () => {
+          // force 2 decimal places for display
+          output.textContent = parseFloat(slider.value).toFixed(2);
+        };
 
-    bindSlider('confidence');
-    bindSlider('risk');
-    bindSlider('surrenderRate');
-  </script>
+        update();
+        slider.addEventListener('input', update);
+      }
+
+      bindSlider('confidence');
+      bindSlider('risk');
+      bindSlider('surrenderRate');
+    </script>
 </body>
+
 </html>

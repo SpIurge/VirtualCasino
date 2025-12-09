@@ -3,7 +3,8 @@
 
 <head>
   <%- include('partials/head'); %>
-  <title>Virtual Casino - Account</title>
+    <title>Virtual Casino - Account</title>
+    <script src="/js/account.js" defer></script>
 </head>
 
 <body>
@@ -31,14 +32,38 @@
         <h2>Choose 3 Players</h2>
         <form action="/choosePlayers" method="POST">
 
-          <div id="cpuContainer">
-            <% cpus.forEach(cpu=> { %>
-              <label style="display:block; margin-bottom:6px;">
-                <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
-                <%= cpu.name %>
-              </label>
-              <% }) %>
-          </div>
+          <table class="cpuTable">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Name</th>
+                <th>Confidence</th>
+                <th>Risk</th>
+                <th>Surrender Rate</th>
+              </tr>
+            </thead>
+            <tbody id="cpuTableBody">
+              <% cpus.forEach(cpu=> { %>
+                <tr>
+                  <td>
+                    <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
+                  </td>
+                  <td>
+                    <%= cpu.name %>
+                  </td>
+                  <td>
+                    <%= cpu.confidence %>
+                  </td>
+                  <td>
+                    <%= cpu.risk %>
+                  </td>
+                  <td>
+                    <%= cpu.surrenderRate %>
+                  </td>
+                </tr>
+                <% }) %>
+            </tbody>
+          </table>
 
           <div>
             <label for="betAmount">Bet Amount:</label>
@@ -46,7 +71,7 @@
               placeholder="Enter bet amount">
           </div>
 
-          <p id="error" style="color:red;"></p>
+          <p id="error" style="color:red; font-weight: bold;"></p>
 
           <button type="submit">Play Blackjack</button>
         </form>
@@ -86,40 +111,6 @@
             <% } %>
       </section>
     </div>
-
-    <script>
-      const checkboxes = document.querySelectorAll(".cpuCheck");
-      const error = document.getElementById("error");
-      const form = document.querySelector("form");
-
-      function updateSelection() {
-        const selected = [...checkboxes].filter(cb => cb.checked);
-
-        if (selected.length > 3) {
-          // Undo last check
-          this.checked = false;
-          error.textContent = "You must select exactly 3 CPUs.";
-        }
-        else if (selected.length < 3) {
-          error.textContent = "Please select exactly 3 CPUs.";
-        }
-        else {
-          error.textContent = "";
-        }
-      }
-
-      checkboxes.forEach(cb => {
-        cb.addEventListener("change", updateSelection);
-      });
-
-      form.addEventListener("submit", (e) => {
-        const selectedCount = [...checkboxes].filter(cb => cb.checked).length;
-        if (selectedCount !== 3) {
-          e.preventDefault();
-          error.textContent = "You need to select *exactly* 3 CPUs before continuing.";
-        }
-      });
-    </script>
 </body>
 
 </html>
