@@ -1,7 +1,8 @@
 nav {
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    padding: 10px;
+    padding-top: 15px;
     background-color: #053b1a;
 }
 
