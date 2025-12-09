@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Virtual Casino - Account</title>
+</head>
+
+<body>
+  <%- include('partials/nav'); %>
+
+    <h1>Welcome, <%= user.username %>
+    </h1>
+
+    <section>
+      <h2>Account Stats</h2>
+      <ul>
+        <li>Wallet: $<%= user.wallet %>
+        </li>
+        <li>Total Wins: <%= user.total_wins %>
+        </li>
+        <li>Total Profit: $<%= user.total_profit %>
+        </li>
+        <li>Total Money Invested: $<%= user.total_invested %>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Choose 3 Players</h2>
+      <form action="/choosePlayers" method="POST">
+
+        <div id="cpuContainer">
+          <% cpus.forEach(cpu=> { %>
+            <label style="display:block; margin-bottom:6px;">
+              <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
+              <%= cpu.name %>
+            </label>
+            <% }) %>
+        </div>
+
+        <div>
+          <label for="betAmount">Bet Amount:</label>
+          <input type="number" id="betAmount" name="betAmount" min="1" max="<%= user.wallet %>" step="1" required placeholder="Enter bet amount">
+        </div>
+
+        <p id="error" style="color:red;"></p>
+
+        <button type="submit" style="margin-top: 15px;">Play Blackjack</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Recent History</h2>
+      <% if (history.length===0) { %>
+        <p>No games recorded yet.</p>
+        <% } else { %>
+          <table border="1" cellpadding="4">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Result</th>
+                <th>Bet</th>
+                <th>Profit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% history.forEach(row=> { %>
+                <tr>
+                  <td>
+                    <%= row.played_at %>
+                  </td>
+                  <td>
+                    <%= row.result %>
+                  </td>
+                  <td>$<%= row.bet_amount %>
+                  </td>
+                  <td>$<%= row.profit_change %>
+                  </td>
+                </tr>
+                <% }); %>
+            </tbody>
+          </table>
+          <% } %>
+    </section>
+
+    <script>
+      const checkboxes = document.querySelectorAll(".cpuCheck");
+      const error = document.getElementById("error");
+      const form = document.querySelector("form");
+
+      function updateSelection() {
+        const selected = [...checkboxes].filter(cb => cb.checked);
+
+        if (selected.length > 3) {
+          // Undo last check
+          this.checked = false;
+          error.textContent = "You must select exactly 3 CPUs.";
+        }
+        else if (selected.length < 3) {
+          error.textContent = "Please select exactly 3 CPUs.";
+        }
+        else {
+          error.textContent = "";
+        }
+      }
+
+      checkboxes.forEach(cb => {
+        cb.addEventListener("change", updateSelection);
+      });
+
+      form.addEventListener("submit", (e) => {
+        const selectedCount = [...checkboxes].filter(cb => cb.checked).length;
+        if (selectedCount !== 3) {
+          e.preventDefault();
+          error.textContent = "You need to select *exactly* 3 CPUs before continuing.";
+        }
+      });
+    </script>
+</body>
+
+</html>
