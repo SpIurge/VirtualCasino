@@ -205,6 +205,76 @@ app.get('/blackjack', requireLogin, async (req, res) => {
   }
 });
 
+// CPU ROUTES
+app.get('/cpus', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+
+  try {
+    const [rows] = await pool.query(
+      'SELECT * FROM cpus WHERE userId = ?',
+      [userId]
+    );
+
+    res.render('cpus', {
+      cpus: rows,
+      error: null
+    });
+  } catch (err) {
+    console.error('Error loading CPUs:', err);
+    res.status(500).send('Server error loading CPUs.');
+  }
+});
+
+// Handles the form submission to create a new CPU
+app.post('/cpus', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+  const { name, confidence, risk, surrenderRate, image } = req.body;
+
+  if (!name || confidence === undefined || risk === undefined || surrenderRate === undefined) {
+    const [rows] = await pool.query(
+      'SELECT * FROM cpus WHERE userId = ?',
+      [userId]
+    );
+    return res.render('cpus', {
+      cpus: rows,
+      error: 'Name, confidence, risk, and surrender rate are required.'
+    });
+  }
+
+const conf = parseFloat(confidence);
+const r = parseFloat(risk);
+const surr = parseFloat(surrenderRate);
+
+if (
+  isNaN(conf) || conf < 0.01 || conf > 1 ||
+  isNaN(r)    || r    < 0.01 || r    > 1 ||
+  isNaN(surr) || surr < 0.01 || surr > 1
+) {
+  const [rows] = await pool.query(
+    'SELECT * FROM cpus WHERE userId = ?',
+    [userId]
+  );
+  return res.render('cpus', {
+    cpus: rows,
+    error: 'All sliders must be between 0.01 and 1.'
+  });
+}
+
+
+  try {
+    await pool.query(
+      `INSERT INTO cpus (name, confidence, risk, surrenderRate, image, userId)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, conf, r, surr, image || null, userId]
+    );
+
+    res.redirect('/cpus');
+  } catch (err) {
+    console.error('Error creating CPU:', err);
+    res.status(500).send('Server error creating CPU.');
+  }
+});
+
 // for History + stats
 app.post('/api/roundResult', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
