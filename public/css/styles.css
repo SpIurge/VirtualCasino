@@ -45,7 +45,7 @@ h1 {
     border: 1px solid white;
 }
 
-#login,
+.login,
 #loginForm {
     text-align: center;
     justify-items: center;
