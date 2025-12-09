@@ -7,6 +7,7 @@ let deckId = null;
 // I haven't bothered to connect the database to this file yet - Lyn
 cpuPlayers = [
     {
+        id: "1",
         name: "CPU 1",
         domId: "cpu1CardNumber",
         cards: [],
@@ -19,6 +20,7 @@ cpuPlayers = [
         }
     },
     {
+        id: "2",
         name: "CPU 2",
         domId: "cpu2CardNumber",
         cards: [],
@@ -31,6 +33,7 @@ cpuPlayers = [
         }
     },
     {
+        id: "3",
         name: "CPU 3",
         domId: "cpu3CardNumber",
         cards: [],
@@ -203,6 +206,11 @@ async function cpuTurns(dealerUpValue) {
 async function playerHit() {
     let draw = await hit(deckId);
     playerCards.push(draw.cards[0]);
+    let playerImageContainer = document.getElementById("playerCards");
+    let newImg = document.createElement("img");
+    newImg.src = draw.cards[0].image;
+    newImg.width = 80;
+    playerImageContainer.append(newImg);
     updateDOM();
 
     if (getScore(playerCards) > 21) {
@@ -225,6 +233,11 @@ async function playerDouble() {
 
     let draw = await hit(deckId);
     playerCards.push(draw.cards[0]);
+    let playerImageContainer = document.getElementById("playerCards");
+    let newImg = document.createElement("img");
+    newImg.src = draw.cards[0].image;
+    newImg.width = 80;
+    playerImageContainer.append(newImg);
     updateDOM();
 
     disablePlayerButtons();
@@ -290,6 +303,28 @@ async function finishRound() {
     dealerCards = await dealerPlay(deckId, dealerCards);
     updateDOM();
 
+    for (let cpu of cpuPlayers) {
+        let imgContainer = document.getElementById("cpu" + cpu.id + "Cards");
+        imgContainer.replaceChildren();
+        
+        for (card of cpu.cards) {
+            let newImg = document.createElement("img");
+            newImg.src = card.image;
+            newImg.width = 80;
+            imgContainer.append(newImg);
+        }
+    }
+
+    let dealerImgContainer = document.getElementById("dealerCards");
+    dealerImgContainer.replaceChildren();
+
+    for (card of dealerCards) {
+        let newImg = document.createElement("img");
+        newImg.src = card.image;
+        newImg.width = 80;
+        dealerImgContainer.append(newImg);
+    }
+
     checkWinners();
 }
 
@@ -321,8 +356,41 @@ async function startRound() {
     playerCards.push(...pDraw.cards);
     dealerCards.push(...dDraw.cards);
 
+    let pImgContainer = document.getElementById("playerCards");
+    let dImgContainer = document.getElementById("dealerCards");
+
+    let playerImg1 = document.createElement("img");
+    playerImg1.src = pDraw.cards[0].image;
+    playerImg1.width = 80;
+    pImgContainer.append(playerImg1);
+    let playerImg2 = document.createElement("img");
+    playerImg2.src = pDraw.cards[1].image;
+    playerImg2.width = 80;
+    pImgContainer.append(playerImg2);
+
+    let dealerImg1 = document.createElement("img");
+    dealerImg1.src = dDraw.cards[0].image;
+    dealerImg1.width = 80;
+    dImgContainer.append(dealerImg1);
+    let dealerImg2 = document.createElement("img");
+    dealerImg2.src = dDraw.cards[1].image;
+    dealerImg2.src = "https://deckofcardsapi.com/static/img/back.png";
+    dealerImg2.width = 80;
+    dImgContainer.append(dealerImg2);
+
     for (let cpu of cpuPlayers) {
         let cDraw = await startingDraw(deckId);
+
+        let imgContainer = document.getElementById("cpu" + cpu.id + "Cards");
+        let newImg = document.createElement("img");
+        newImg.src = "https://deckofcardsapi.com/static/img/back.png";
+        newImg.width = 80;
+        imgContainer.append(newImg);
+
+        let newImg2 = document.createElement("img");
+        newImg2.src = "https://deckofcardsapi.com/static/img/back.png";
+        newImg2.width = 80;
+        imgContainer.append(newImg2);
         cpu.cards.push(...cDraw.cards);
     }
 
