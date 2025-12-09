@@ -206,7 +206,7 @@ app.get('/cpus', requireLogin, async (req, res) => {
 
   try {
     const [rows] = await pool.query(
-      'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+      'SELECT * FROM cpus WHERE userId = ?',
       [userId]
     );
 
@@ -227,7 +227,7 @@ app.post('/cpus', requireLogin, async (req, res) => {
 
   if (!name || confidence === undefined || risk === undefined || surrenderRate === undefined) {
     const [rows] = await pool.query(
-      'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+      'SELECT * FROM cpus WHERE userId = ?',
       [userId]
     );
     return res.render('cpus', {
@@ -246,7 +246,7 @@ if (
   isNaN(surr) || surr < 0.01 || surr > 1
 ) {
   const [rows] = await pool.query(
-    'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+    'SELECT * FROM cpus WHERE userId = ?',
     [userId]
   );
   return res.render('cpus', {

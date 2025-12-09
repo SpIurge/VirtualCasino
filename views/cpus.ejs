@@ -24,38 +24,29 @@
       </div>
 
       <div>
-<<<<<<< HEAD
-        <label>Confidence (0–100):
-          <input type="number" name="confidence" min="0" max="100" required>
-=======
         <label>Confidence (0.01–1):
-          <input type="number" name="confidence" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
+          <input type="range" name="confidence" min="0.01" max="1" step="0.01" value="0.5"
+                oninput="this.nextElementSibling.value = this.value">
+          <output>0.5</output>
         </label>
       </div>
 
       <div>
-<<<<<<< HEAD
-        <label>Risk (0–100): 
-          <input type="number" name="risk" min="0" max="100" required>
-=======
         <label>Risk (0.01–1): 
-          <input type="number" name="risk" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
+          <input type="range" name="risk" min="0.01" max="1" step="0.01" value="0.5"
+                oninput="this.nextElementSibling.value = this.value">
+          <output>0.5</output>
         </label>
       </div>
 
       <div>
-<<<<<<< HEAD
-        <label>Surrender Rate (0–100):
-          <input type="number" name="surrenderRate" min="0" max="100" required>
-=======
         <label>Surrender Rate (0.01–1):
-          <input type="number" name="surrenderRate" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
+          <input type="range" name="surrenderRate" min="0.01" max="1" step="0.01" value="0.5"
+                oninput="this.nextElementSibling.value = this.value">
+          <output>0.5</output>
         </label>
       </div>
-
+      
       <div>
         <label>Image URL (optional):
           <input type="text" name="image" placeholder="https://...">
