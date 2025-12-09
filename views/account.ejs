@@ -4,7 +4,6 @@
 <head>
   <%- include('partials/head'); %>
   <title>Virtual Casino - Account</title>
-  <script src="/js/account.js" defer></script>
 </head>
 
 <body>
@@ -26,58 +25,6 @@
           <li>Total Money Invested: $<%= user.total_invested %>
           </li>
         </ul>
-      </section>
-
-      <section>
-        <h2>Choose 3 Players</h2>
-        <form action="/choosePlayers" method="POST">
-
-          <div id="tableContainer">
-            <table class="cpuTable">
-              <thead>
-                <tr>
-                  <th>Select</th>
-                  <th>Name</th>
-                  <th>Confidence</th>
-                  <th>Risk</th>
-                  <th>Surrender Rate</th>
-                </tr>
-              </thead>
-              <tbody id="cpuTableBody">
-                <% cpus.forEach(cpu=> { %>
-                  <tr>
-                    <td>
-                      <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
-                    </td>
-                    <td>
-                      <%= cpu.name %>
-                    </td>
-                    <td>
-                      <%= cpu.confidence %>
-                    </td>
-                    <td>
-                      <%= cpu.risk %>
-                    </td>
-                    <td>
-                      <%= cpu.surrenderRate %>
-                    </td>
-                  </tr>
-                  <% }) %>
-              </tbody>
-            </table>
-          </div>
-
-
-          <div>
-            <label for="betAmount">Bet Amount:</label>
-            <input type="number" id="betAmount" name="betAmount" min="1" max="<%= user.wallet %>" step="1" required
-              placeholder="Enter bet amount">
-          </div>
-
-          <p id="error" style="color:red; font-weight: bold;"></p>
-
-          <button type="submit">Play Blackjack</button>
-        </form>
       </section>
 
       <section>

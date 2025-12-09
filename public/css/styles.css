@@ -125,13 +125,6 @@ th {
     z-index: 1;
 }
 
-#cpuContainer {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 8px;
-}
-
 th,
 td {
     padding: 6px;
@@ -226,4 +219,32 @@ input[type="range"] {
     width: 40px;
     text-align: right;
     margin-left: 8px;
+}
+
+.homeLayout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
+  align-items: flex-start;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.topPanel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.casinoImg {
+  width: 70%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  max-width: 500px;
+  width: 80%;
+  border: 2px solid #fff;
+  border-radius: 12px;
 }

@@ -52,6 +52,24 @@ app.get('/', (req, res) => {
   res.redirect('/login');
 });
 
+app.get('/home', requireLogin, async (req, res) => {
+    const userId = req.session.user.id;
+    try {
+        const [[userRow]] = await pool.query(
+            'SELECT * FROM users WHERE id = ?',
+            [userId]
+        );
+        const [cpus] = await pool.query(
+            `SELECT * FROM cpus`
+        )
+        res.render('home.ejs',{user:userRow,cpus});
+    } catch (err){
+        console.log("Error loading cpus in home screen", err);
+    }
+    
+
+});
+
 // AUTH ROUTES
 
 // Show registration form
