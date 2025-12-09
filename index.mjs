@@ -236,9 +236,25 @@ app.post('/cpus', requireLogin, async (req, res) => {
     });
   }
 
-  const conf = parseInt(confidence, 10);
-  const r = parseInt(risk, 10);
-  const surr = parseInt(surrenderRate, 10);
+const conf = parseFloat(confidence);
+const r = parseFloat(risk);
+const surr = parseFloat(surrenderRate);
+
+if (
+  isNaN(conf) || conf < 0.01 || conf > 1 ||
+  isNaN(r)    || r    < 0.01 || r    > 1 ||
+  isNaN(surr) || surr < 0.01 || surr > 1
+) {
+  const [rows] = await pool.query(
+    'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+    [userId]
+  );
+  return res.render('cpus', {
+    cpus: rows,
+    error: 'All sliders must be between 0.01 and 1.'
+  });
+}
+
 
   try {
     await pool.query(
