@@ -328,6 +328,13 @@ app.post('/api/roundResult', requireLogin, async (req, res) => {
   }
 });
 
+app.get('/leaderboard', async (req, res) => {
+  let sql = `SELECT username, wallet, total_wins, total_profit, total_invested
+             FROM users`
+  const [rows] = await pool.query(sql);
+  res.render('leaderboard.ejs', {rows});
+});
+
 app.get('/dbTest', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT CURDATE()');

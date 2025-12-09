@@ -16,12 +16,14 @@
             <div id="dealerContainer">
                 <div>Dealer</div>
                 <p>Cards: <span id="dealerCardNumber">?</span></p>
+                <div id="dealerCards"> </div>
             </div>
 
             <div id="playerContainer">
                 <div>Player</div>
                 <div>Score: <span id="playerScore">0</span></div>
                 <p>Cards: <span id="playerCardNumber"></span></p>
+                <div id="playerCards"> </div>
 
                 <div class="controls">
                     <button id="hitBtn" onclick="playerHit()">Hit</button>
@@ -37,6 +39,7 @@
                         <%= cpus[0]?.name %>
                     </div>
                     <p>Cards: <span id="cpu1CardNumber"></span></p>
+                    <div id="cpu1Cards"> </div>
                 </div>
 
                 <div class="cpuContainer">
@@ -44,6 +47,7 @@
                         <%= cpus[1]?.name %>
                     </div>
                     <p>Cards: <span id="cpu2CardNumber"></span></p>
+                    <div id="cpu2Cards"> </div>
                 </div>
 
                 <div class="cpuContainer">
@@ -51,6 +55,7 @@
                         <%= cpus[2]?.name %>
                     </div>
                     <p>Cards: <span id="cpu3CardNumber"></span></p>
+                    <div id="cpu3Cards"> </div>
                 </div>
             </div>
         </div>
