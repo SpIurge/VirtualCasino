@@ -200,6 +200,60 @@ app.get('/blackjack', requireLogin, async (req, res) => {
   }
 });
 
+// CPU ROUTES
+app.get('/cpus', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+
+  try {
+    const [rows] = await pool.query(
+      'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+      [userId]
+    );
+
+    res.render('cpus', {
+      cpus: rows,
+      error: null
+    });
+  } catch (err) {
+    console.error('Error loading CPUs:', err);
+    res.status(500).send('Server error loading CPUs.');
+  }
+});
+
+// Handles the form submission to create a new CPU
+app.post('/cpus', requireLogin, async (req, res) => {
+  const userId = req.session.user.id;
+  const { name, confidence, risk, surrenderRate, image } = req.body;
+
+  if (!name || confidence === undefined || risk === undefined || surrenderRate === undefined) {
+    const [rows] = await pool.query(
+      'SELECT cpuld, name, confidence, risk, surrenderRate, image FROM cpus WHERE userId = ?',
+      [userId]
+    );
+    return res.render('cpus', {
+      cpus: rows,
+      error: 'Name, confidence, risk, and surrender rate are required.'
+    });
+  }
+
+  const conf = parseInt(confidence, 10);
+  const r = parseInt(risk, 10);
+  const surr = parseInt(surrenderRate, 10);
+
+  try {
+    await pool.query(
+      `INSERT INTO cpus (name, confidence, risk, surrenderRate, image, userId)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [name, conf, r, surr, image || null, userId]
+    );
+
+    res.redirect('/cpus');
+  } catch (err) {
+    console.error('Error creating CPU:', err);
+    res.status(500).send('Server error creating CPU.');
+  }
+});
+
 // for History + stats
 app.post('/api/roundResult', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
