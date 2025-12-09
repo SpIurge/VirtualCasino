@@ -173,9 +173,15 @@ app.get('/account', requireLogin, async (req, res) => {
 
 // Choose players and go to blackjack table
 app.post('/choosePlayers', requireLogin, async (req, res) => {
-  const { cpuIds } = req.body;
+  let { cpuIds, betAmount } = req.body;
 
-  req.session.selectedCpuIds = cpuIds || [];
+  // ensure cpuIds is always an array
+  if (!cpuIds) cpuIds = [];
+  if (!Array.isArray(cpuIds)) cpuIds = [cpuIds];
+
+  // save to session
+  req.session.selectedCpuIds = cpuIds.map(id => Number(id));
+  req.session.betAmount = Number(betAmount);
 
   res.redirect('/blackjack');
 });
@@ -189,15 +195,17 @@ app.get('/blackjack', requireLogin, async (req, res) => {
       const ids = req.session.selectedCpuIds;
 
       const [cpuRows] = await pool.query(
-        `SELECT * FROM cpus WHERE id IN (${ids.map(() => '?').join(',')})`,
+        `SELECT * FROM cpus WHERE cpuId IN (${ids.map(() => '?').join(',')})`,
         ids
       );
 
       cpus = cpuRows;
     }
 
-    // Render blackjack with BOTH dealer + selected CPUs
-    res.render('blackjack', { cpus });
+    const betAmount = req.session.betAmount || 0; // fallback to 0
+
+    // Render blackjack with BOTH dealer + selected CPUs + betAmount
+    res.render('blackjack', { cpus, betAmount });
 
   } catch (err) {
     console.error('Error loading blackjack view:', err);
@@ -241,24 +249,24 @@ app.post('/cpus', requireLogin, async (req, res) => {
     });
   }
 
-const conf = parseFloat(confidence);
-const r = parseFloat(risk);
-const surr = parseFloat(surrenderRate);
+  const conf = parseFloat(confidence);
+  const r = parseFloat(risk);
+  const surr = parseFloat(surrenderRate);
 
-if (
-  isNaN(conf) || conf < 0.01 || conf > 1 ||
-  isNaN(r)    || r    < 0.01 || r    > 1 ||
-  isNaN(surr) || surr < 0.01 || surr > 1
-) {
-  const [rows] = await pool.query(
-    'SELECT * FROM cpus WHERE userId = ?',
-    [userId]
-  );
-  return res.render('cpus', {
-    cpus: rows,
-    error: 'All sliders must be between 0.01 and 1.'
-  });
-}
+  if (
+    isNaN(conf) || conf < 0.01 || conf > 1 ||
+    isNaN(r) || r < 0.01 || r > 1 ||
+    isNaN(surr) || surr < 0.01 || surr > 1
+  ) {
+    const [rows] = await pool.query(
+      'SELECT * FROM cpus WHERE userId = ?',
+      [userId]
+    );
+    return res.render('cpus', {
+      cpus: rows,
+      error: 'All sliders must be between 0.01 and 1.'
+    });
+  }
 
 
   try {
@@ -293,11 +301,11 @@ app.post('/api/roundResult', requireLogin, async (req, res) => {
 
     // Insert into History table
     await connection.query(
-      'INSERT INTO history (user_id, dealer_id, result, bet_amount, profit_change) VALUES (?, ?, ?, ?, ?)',
-      [userId, dealerId || null, result, bet, profit]
+      'INSERT INTO history (user_id, result, bet_amount, profit_change) VALUES (?, ?, ?, ?)',
+      [userId, result, bet, profit]
     );
 
-    // Update user stats (updates at least 3 fieldsd just for the rubric requiremtn)
+    // Update user stats (updates at least 3 fields just for the rubric requirement)
     await connection.query(
       `UPDATE users
        SET wallet = wallet + ?,

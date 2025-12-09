@@ -1,52 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack</title>
     <script src="/js/blackjackLogic.js" defer></script>
+
+    <style>
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        #modalContinueBtn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
+
 <body>
     <%- include('partials/nav'); %>
 
-    <h1>Blackjack Table</h1>
-    <% if (dealer) { %>
-      <p>Current Dealer: <strong><%= dealer.name %></strong> (<%= dealer.difficulty %>)</p>
-    <% } %>
+        <h1>Blackjack Table</h1>
 
-    <div>
-        <div>Dealer</div>
-        <p>Cards: <span id="dealerCardNumber">?</span></p>
-    </div>
-
-    <div>
-        <div>Player</div>
-        <div>Score: <span id="playerScore">0</span></div>
-        <p>Cards: <span id="playerCardNumber"></span></p>
-
-        <div class="controls">
-            <button id="hitBtn" onclick="playerHit()">Hit</button>
-            <button id="standBtn" onclick="playerStand()">Stand</button>
-            <button id="doubleBtn" onclick="playerDouble()">Double</button>
-            <button id="surrenderBtn" onclick="playerSurrender()">Surrender</button>
+        <div>
+            <div>Dealer</div>
+            <p>Cards: <span id="dealerCardNumber">?</span></p>
         </div>
-    </div>
 
-    <div>
-        <div><%= cpus[0]?.name %></div>
-        <p>Cards: <span id="cpu1CardNumber"></span></p>
-    </div>
+        <div>
+            <div>Player</div>
+            <div>Score: <span id="playerScore">0</span></div>
+            <p>Cards: <span id="playerCardNumber"></span></p>
 
-    <div>
-        <div><%= cpus[1]?.name %></div>
-        <p>Cards: <span id="cpu2CardNumber"></span></p>
-    </div>
+            <div class="controls">
+                <button id="hitBtn" onclick="playerHit()">Hit</button>
+                <button id="standBtn" onclick="playerStand()">Stand</button>
+                <button id="doubleBtn" onclick="playerDouble()">Double</button>
+                <button id="surrenderBtn" onclick="playerSurrender()">Surrender</button>
+            </div>
+        </div>
 
-    <div>
-        <div><%= cpus[2]?.name %></div>
-        <p>Cards: <span id="cpu3CardNumber"></span></p>
-    </div>
+        <div>
+            <div>
+                <%= cpus[0]?.name %>
+            </div>
+            <p>Cards: <span id="cpu1CardNumber"></span></p>
+        </div>
 
-    <pre id="gameInfo"></pre>
+        <div>
+            <div>
+                <%= cpus[1]?.name %>
+            </div>
+            <p>Cards: <span id="cpu2CardNumber"></span></p>
+        </div>
+
+        <div>
+            <div>
+                <%= cpus[2]?.name %>
+            </div>
+            <p>Cards: <span id="cpu3CardNumber"></span></p>
+        </div>
+
+        <div id="resultModal" class="modal">
+            <div class="modal-content">
+                <h2>Round Finished</h2>
+                <p id="modalMessage"></p>
+
+                <button id="modalContinueBtn">Continue</button>
+            </div>
+        </div>
+
+        <!-- Needed so that info is passed to the separate JS file -->
+        <div id="cpu-data" data-cpus='<%- JSON.stringify(cpus) %>'></div>
+        <div id="bet-data" data-bet="<%= betAmount %>"></div>
 </body>
+
 </html>
