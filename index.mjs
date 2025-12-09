@@ -18,6 +18,19 @@ const pool = mysql.createPool({
 app.get('/', (req, res) => {
    res.send('Hello Express app!')
 });
+
+app.get('/home',(req,res)=>{
+    res.render('home.ejs')
+});
+
+app.get("/blackjack", (req, res) => {
+  res.render("blackjack.ejs");        
+});
+
+app.get("/slotMachine", (req, res) => {
+  res.render("slotMachine.ejs");    
+});
+
 app.get("/dbTest", async(req, res) => {
    try {
         const [rows] = await pool.query("SELECT CURDATE()");
@@ -27,6 +40,17 @@ app.get("/dbTest", async(req, res) => {
         res.status(500).send("Database error!");
     }
 });//dbTest
+
+app.post("/play", async (req,res)=>{
+    const game = req.body.gameSelect;
+
+    if(game == "blackjack"){
+        res.redirect("/blackjack");
+    }
+    if(game == "slotMachine"){
+        res.redirect("/slotMachine");
+    }
+})
 app.listen(3000, ()=>{
     console.log("Express server running")
 })

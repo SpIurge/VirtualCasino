@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome In</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <h1>Welcome to THE virtual Casino</h1>
     
-    
+        <h1>Welcome to THE virtual Casino</h1>
+    <form action="/account" method="POST">
+        <button>Access Account</button> <br>
+    </form>
+    <form action="/play" method="POST">
+        <select name="gameSelect">
+            <option value="blackjack">Black Jack</option>
+            <option value="slotMachine">Slot Machine</option>
+        </select> <br><br>
+        <button type="submit">Play Game</button> <br>
+    </form>
+
 </body>
+
 </html>

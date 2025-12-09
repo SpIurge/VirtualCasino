@@ -1,0 +1,65 @@
+/* Casino green background */
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle, #0f7a3a 0%, #0a5a2a 60%, #053b1a 100%);
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 40px;
+  font-weight: bold;
+}
+
+
+button {
+  background-color: #166b35;       
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;               
+  border: 2px solid #1aff77;        
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;           
+  display: flex;
+  justify-content: space-evenly;   
+  padding: 30px;
+  margin-left: 40px;
+}
+
+
+button:hover {
+  background-color: #1e8a45;       
+  box-shadow: 0 0 12px #1aff77;     
+  transform: translateY(-2px);
+}
+
+select {
+  background-color: #0e5c2c;          
+  color: white;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border-radius: 8px;                  
+  border: 2px solid #1aff77;           
+  outline: none;
+  cursor: pointer;                    
+  transition: 0.2s ease;               
+}
+
+
+select:hover {
+  background-color: #147d3c;           
+  box-shadow: 0 0 10px #1aff77;        
+}
+
+
+select:focus {
+  background-color: #1b8d4a;
+  box-shadow: 0 0 15px #1aff77;
+  border-color: #1aff77;
+}
+
