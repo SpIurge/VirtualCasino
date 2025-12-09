@@ -4,6 +4,7 @@
 <head>
   <%- include('partials/head'); %>
     <title>Virtual Casino - My CPUs</title>
+    <script src="/js/cpu.js"></script>
 </head>
 
 <body>
@@ -68,6 +69,7 @@
                       <th>Confidence</th>
                       <th>Risk</th>
                       <th>Surrender Rate</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -85,6 +87,9 @@
                         <td>
                           <%= cpu.surrenderRate %>
                         </td>
+                        <td>
+                          <a href="/cpus/<%= cpu.cpuId %>/edit">Edit CPU</a>
+                        </td>
                       </tr>
                       <% }); %>
                   </tbody>
@@ -92,27 +97,6 @@
                 <% } %>
           </section>
     </div>
-
-
-    <script>
-      function bindSlider(sliderId) {
-        const slider = document.getElementById(sliderId);
-        const output = document.getElementById(sliderId + 'Value');
-        if (!slider || !output) return;
-
-        const update = () => {
-          // force 2 decimal places for display
-          output.textContent = parseFloat(slider.value).toFixed(2);
-        };
-
-        update();
-        slider.addEventListener('input', update);
-      }
-
-      bindSlider('confidence');
-      bindSlider('risk');
-      bindSlider('surrenderRate');
-    </script>
 </body>
 
 </html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head'); %>
+    <title>Edit CPU - <%= cpu.name %>
+    </title>
+    <script src="/js/cpu.js"></script>
+</head>
+
+<body>
+  <%- include('partials/nav'); %>
+
+    <h1>Edit CPU: <%= cpu.name %>
+    </h1>
+
+    <div class="pageContent">
+      <% if (error) { %>
+        <p style="color:red; font-weight: bold;">
+          <%= error %>
+        </p>
+        <% } %>
+
+          <section>
+            <h2>Edit CPU</h2>
+
+            <form action="/cpus/<%= cpu.cpuId %>/edit" method="POST">
+              <div>
+                <label>Name:
+                  <input type="text" name="name" value="<%= cpu.name %>" required>
+                </label>
+              </div>
+
+              <div>
+                <label>Confidence (0.01–1):
+                  <input type="range" name="confidence" min="0.01" max="1" step="0.01" value="<%= cpu.confidence %>"
+                    oninput="this.nextElementSibling.value = Number(this.value).toFixed(2)" required>
+                  <output>
+                    <%= Number(cpu.confidence).toFixed(2) %>
+                  </output>
+                </label>
+              </div>
+
+              <div>
+                <label>Risk (0.01–1):
+                  <input type="range" name="risk" min="0.01" max="1" step="0.01" value="<%= cpu.risk %>"
+                    oninput="this.nextElementSibling.value = Number(this.value).toFixed(2)" required>
+                  <output>
+                    <%= Number(cpu.risk).toFixed(2) %>
+                  </output>
+                </label>
+              </div>
+
+              <div>
+                <label>Surrender Rate (0.01–1):
+                  <input type="range" name="surrenderRate" min="0.01" max="1" step="0.01"
+                    value="<%= cpu.surrenderRate %>"
+                    oninput="this.nextElementSibling.value = Number(this.value).toFixed(2)" required>
+                  <output>
+                    <%= Number(cpu.surrenderRate).toFixed(2) %>
+                  </output>
+                </label>
+              </div>
+
+              <button class="smallBtn" type="submit">Save Changes</button>
+              <br>
+              <a href="/cpus">Cancel</a>
+            </form>
+          </section>
+    </div>
+</body>
+
+</html>
