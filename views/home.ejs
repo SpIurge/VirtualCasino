@@ -9,18 +9,78 @@
 </head>
 
 <body>
-    
-        <h1>Welcome to THE virtual Casino</h1>
-    <form action="/account" method="POST">
-        <button>Access Account</button> <br>
-    </form>
-    <form action="/play" method="POST">
-        <select name="gameSelect">
-            <option value="blackjack">Black Jack</option>
-            <option value="slotMachine">Slot Machine</option>
-        </select> <br><br>
-        <button type="submit">Play Game</button> <br>
-    </form>
+
+    <h1>Welcome to THE Virtual Casino</h1>
+    <div class="homeLayout">
+        <div class="leftPanel">
+            <form action="/account" method="GET">
+                <button type="submit">Access Account</button> <br>
+            </form>
+
+            <form action="/play" method="POST" id="playForm">
+                <h2>Choose 3 Players</h2>
+
+                <div id="cpuContainer">
+                    <% cpus.forEach(cpu=> { %>
+                        <label style="display:block; margin-bottom:6px;">
+                            <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
+                            <%= cpu.name %>
+                        </label>
+                        <% }) %>
+                </div><br>
+
+                <div id="error" style="color: #ffcccc; margin-top: 8px;"></div>
+
+                <div style="margin-top: 12px;">
+                    <label for="betAmount">Bet Amount:</label>
+                    <input type="number" id="betAmount" name="betAmount" min="1" max="<%= user.wallet %>" step="1"
+                        required placeholder="Enter bet amount">
+                </div><br>
+
+                <button type="submit">Play Blackjack</button> <br>
+            </form>
+            <div class="rightPanel"> <img src="/img/luigirich.jpg" alt="Luigi Casino" class="casinoImg">
+                <h2>May all your dreams come true but most importantly may all your money become ours</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const checkboxes = document.querySelectorAll(".cpuCheck");
+        const error = document.getElementById("error");
+        const playForm = document.getElementById("playForm");
+
+        function updateSelection() {
+            const selected = [...checkboxes].filter(cb => cb.checked);
+
+            if (selected.length > 3) {
+                this.checked = false;
+                error.textContent = "You must select exactly 3 CPUs.";
+            } else if (selected.length < 3) {
+                error.textContent = "Please select exactly 3 CPUs.";
+            } else {
+                error.textContent = "";
+            }
+        }
+
+        // Listen for checkbox changes
+        checkboxes.forEach(cb => {
+            cb.addEventListener("change", updateSelection);
+        });
+
+        // When clicking Play Blackjack
+        playForm.addEventListener("submit", (e) => {
+            const selectedCount = [...checkboxes].filter(cb => cb.checked).length;
+
+            if (selectedCount !== 3) {
+                e.preventDefault();
+                error.textContent = "You need to select exactly 3 CPUs before playing Blackjack.";
+            } else {
+                error.textContent = "";
+            }
+        });
+    </script>
 
 </body>
 

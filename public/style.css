@@ -63,3 +63,38 @@ select:focus {
   border-color: #1aff77;
 }
 
+.homeLayout {
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-start;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+
+.leftPanel {
+  width: 480px;
+}
+
+
+.rightPanel {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 50px;
+}
+
+
+.casinoImg {
+  width: 70%;
+  max-width: 600px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  max-width: 500px;
+  width: 80%;
+  border: 2px solid #fff;
+  border-radius: 12px;
+}
+
