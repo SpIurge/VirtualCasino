@@ -3,7 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Virtual Casino - My CPUs</title>
-  
+  <style>
+    .slider-row {
+      margin-bottom: 10px;
+    }
+    .slider-row label {
+      display: inline-block;
+      width: 160px;
+    }
+    .slider-value {
+      display: inline-block;
+      width: 40px;
+      text-align: right;
+      margin-left: 8px;
+    }
+  </style>
 </head>
 <body>
   <%- include('partials/nav'); %>
@@ -23,37 +37,49 @@
         </label>
       </div>
 
-      <div>
-<<<<<<< HEAD
-        <label>Confidence (0–100):
-          <input type="number" name="confidence" min="0" max="100" required>
-=======
-        <label>Confidence (0.01–1):
-          <input type="number" name="confidence" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
-        </label>
+      <div class="slider-row">
+        <label for="confidence">Confidence (0.01–1):</label>
+        <input
+          type="range"
+          id="confidence"
+          name="confidence"
+          min="0.01"
+          max="1"
+          step="0.01"
+          value="0.50"
+          required
+        >
+        <span id="confidenceValue" class="slider-value">0.50</span>
       </div>
 
-      <div>
-<<<<<<< HEAD
-        <label>Risk (0–100): 
-          <input type="number" name="risk" min="0" max="100" required>
-=======
-        <label>Risk (0.01–1): 
-          <input type="number" name="risk" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
-        </label>
+      <div class="slider-row">
+        <label for="risk">Risk (0.01–1):</label>
+        <input
+          type="range"
+          id="risk"
+          name="risk"
+          min="0.01"
+          max="1"
+          step="0.01"
+          value="0.50"
+          required
+        >
+        <span id="riskValue" class="slider-value">0.50</span>
       </div>
 
-      <div>
-<<<<<<< HEAD
-        <label>Surrender Rate (0–100):
-          <input type="number" name="surrenderRate" min="0" max="100" required>
-=======
-        <label>Surrender Rate (0.01–1):
-          <input type="number" name="surrenderRate" min="0.01" max="1" required>
->>>>>>> 78afb50205706a529339cf9342d3be73198ba86f
-        </label>
+      <div class="slider-row">
+        <label for="surrenderRate">Surrender Rate (0.01–1):</label>
+        <input
+          type="range"
+          id="surrenderRate"
+          name="surrenderRate"
+          min="0.01"
+          max="1"
+          step="0.01"
+          value="0.50"
+          required
+        >
+        <span id="surrenderRateValue" class="slider-value">0.50</span>
       </div>
 
       <div>
@@ -101,5 +127,25 @@
       </table>
     <% } %>
   </section>
+
+  <script>
+    function bindSlider(sliderId) {
+      const slider = document.getElementById(sliderId);
+      const output = document.getElementById(sliderId + 'Value');
+      if (!slider || !output) return;
+
+      const update = () => {
+        // force 2 decimal places for display
+        output.textContent = parseFloat(slider.value).toFixed(2);
+      };
+
+      update();
+      slider.addEventListener('input', update);
+    }
+
+    bindSlider('confidence');
+    bindSlider('risk');
+    bindSlider('surrenderRate');
+  </script>
 </body>
 </html>
