@@ -107,6 +107,11 @@ select:focus {
     width: 125px;
 }
 
+#tableContainer {
+    max-height: 250px; 
+    overflow-y: auto;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

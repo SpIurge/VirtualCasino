@@ -236,7 +236,7 @@ app.get('/cpus', requireLogin, async (req, res) => {
 // Handles the form submission to create a new CPU
 app.post('/cpus', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
-  const { name, confidence, risk, surrenderRate, image } = req.body;
+  const { name, confidence, risk, surrenderRate } = req.body;
 
   if (!name || confidence === undefined || risk === undefined || surrenderRate === undefined) {
     const [rows] = await pool.query(
@@ -271,9 +271,9 @@ app.post('/cpus', requireLogin, async (req, res) => {
 
   try {
     await pool.query(
-      `INSERT INTO cpus (name, confidence, risk, surrenderRate, image, userId)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [name, conf, r, surr, image || null, userId]
+      `INSERT INTO cpus (name, confidence, risk, surrenderRate, userId)
+       VALUES (?, ?, ?, ?, ?)`,
+      [name, conf, r, surr || null, userId]
     );
 
     res.redirect('/cpus');
