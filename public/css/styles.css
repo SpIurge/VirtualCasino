@@ -1,0 +1,159 @@
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background-color: #053b1a;
+}
+
+#leftNav, #rightNav {
+    display: flex;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    font-weight: bold;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle, #0f7a3a 0%, #0a5a2a 60%, #053b1a 100%);
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+.pageContent {
+    padding: 1%;
+    width: 50%;
+    justify-self: center;
+    justify-content: center;
+    border: 1px solid white;
+}
+
+#login, #loginForm {
+    text-align: center;
+    justify-items: center;
+}
+
+#login input {
+    margin-bottom: 15px;
+}
+
+#loginBtn {
+    padding: 5px 15px;
+}
+
+button {
+    background-color: #166b35;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: 2px solid #1aff77;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 30px;
+}
+
+button:hover {
+    background-color: #1e8a45;
+    box-shadow: 0 0 12px #1aff77;
+    transform: translateY(-2px);
+}
+
+select {
+    background-color: #0e5c2c;
+    color: white;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 8px;
+    border: 2px solid #1aff77;
+    outline: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+
+select:hover {
+    background-color: #147d3c;
+    box-shadow: 0 0 10px #1aff77;
+}
+
+
+select:focus {
+    background-color: #1b8d4a;
+    box-shadow: 0 0 15px #1aff77;
+    border-color: #1aff77;
+}
+
+#betAmount {
+    width: 125px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 3px solid #032510;
+}
+
+th {
+    background-color: #053b1a;
+}
+
+#dealerContainer, #playerContainer, .cpuContainer {
+    
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+}
+
+.modal-content {
+    background: #032510;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 400px;
+    text-align: center;
+}
+
+#modalContinueBtn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.slider-row {
+    margin-bottom: 10px;
+}
+
+.slider-row label {
+    display: inline-block;
+    width: 160px;
+}
+
+.slider-value {
+    display: inline-block;
+    width: 40px;
+    text-align: right;
+    margin-left: 8px;
+}

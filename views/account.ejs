@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
+  <%- include('partials/head'); %>
   <title>Virtual Casino - Account</title>
 </head>
 
@@ -12,77 +12,80 @@
     <h1>Welcome, <%= user.username %>
     </h1>
 
-    <section>
-      <h2>Account Stats</h2>
-      <ul>
-        <li>Wallet: $<%= user.wallet %>
-        </li>
-        <li>Total Wins: <%= user.total_wins %>
-        </li>
-        <li>Total Profit: $<%= user.total_profit %>
-        </li>
-        <li>Total Money Invested: $<%= user.total_invested %>
-        </li>
-      </ul>
-    </section>
+    <div class="pageContent">
+      <section>
+        <h2>Account Stats</h2>
+        <ul>
+          <li>Wallet: $<%= user.wallet %>
+          </li>
+          <li>Total Wins: <%= user.total_wins %>
+          </li>
+          <li>Total Profit: $<%= user.total_profit %>
+          </li>
+          <li>Total Money Invested: $<%= user.total_invested %>
+          </li>
+        </ul>
+      </section>
 
-    <section>
-      <h2>Choose 3 Players</h2>
-      <form action="/choosePlayers" method="POST">
+      <section>
+        <h2>Choose 3 Players</h2>
+        <form action="/choosePlayers" method="POST">
 
-        <div id="cpuContainer">
-          <% cpus.forEach(cpu=> { %>
-            <label style="display:block; margin-bottom:6px;">
-              <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
-              <%= cpu.name %>
-            </label>
-            <% }) %>
-        </div>
+          <div id="cpuContainer">
+            <% cpus.forEach(cpu=> { %>
+              <label style="display:block; margin-bottom:6px;">
+                <input type="checkbox" name="cpuIds[]" value="<%= cpu.cpuId %>" class="cpuCheck">
+                <%= cpu.name %>
+              </label>
+              <% }) %>
+          </div>
 
-        <div>
-          <label for="betAmount">Bet Amount:</label>
-          <input type="number" id="betAmount" name="betAmount" min="1" max="<%= user.wallet %>" step="1" required placeholder="Enter bet amount">
-        </div>
+          <div>
+            <label for="betAmount">Bet Amount:</label>
+            <input type="number" id="betAmount" name="betAmount" min="1" max="<%= user.wallet %>" step="1" required
+              placeholder="Enter bet amount">
+          </div>
 
-        <p id="error" style="color:red;"></p>
+          <p id="error" style="color:red;"></p>
 
-        <button type="submit" style="margin-top: 15px;">Play Blackjack</button>
-      </form>
-    </section>
+          <button type="submit">Play Blackjack</button>
+        </form>
+      </section>
 
-    <section>
-      <h2>Recent History</h2>
-      <% if (history.length===0) { %>
-        <p>No games recorded yet.</p>
-        <% } else { %>
-          <table border="1" cellpadding="4">
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Result</th>
-                <th>Bet</th>
-                <th>Profit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% history.forEach(row=> { %>
+      <section>
+        <h2>Recent History</h2>
+        <% if (history.length===0) { %>
+          <p>No games recorded yet.</p>
+          <% } else { %>
+            <table border="1" cellpadding="4">
+              <thead>
                 <tr>
-                  <td>
-                    <%= row.played_at %>
-                  </td>
-                  <td>
-                    <%= row.result %>
-                  </td>
-                  <td>$<%= row.bet_amount %>
-                  </td>
-                  <td>$<%= row.profit_change %>
-                  </td>
+                  <th>Date</th>
+                  <th>Result</th>
+                  <th>Bet</th>
+                  <th>Profit</th>
                 </tr>
-                <% }); %>
-            </tbody>
-          </table>
-          <% } %>
-    </section>
+              </thead>
+              <tbody>
+                <% history.forEach(row=> { %>
+                  <tr>
+                    <td>
+                      <%= row.played_at %>
+                    </td>
+                    <td>
+                      <%= row.result %>
+                    </td>
+                    <td>$<%= row.bet_amount %>
+                    </td>
+                    <td>$<%= row.profit_change %>
+                    </td>
+                  </tr>
+                  <% }); %>
+              </tbody>
+            </table>
+            <% } %>
+      </section>
+    </div>
 
     <script>
       const checkboxes = document.querySelectorAll(".cpuCheck");
