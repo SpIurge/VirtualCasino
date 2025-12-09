@@ -10,6 +10,10 @@
     <%- include('partials/nav'); %>
 
     <h1>Blackjack Table</h1>
+    <div id="quoteBox" style="font-style: italic; margin-bottom: 15px;">
+    Loading Gambling Enrichment...
+    </div>
+
     <% if (dealer) { %>
       <p>Current Dealer: <strong><%= dealer.name %></strong> (<%= dealer.difficulty %>)</p>
     <% } %>
@@ -48,5 +52,26 @@
     </div>
 
     <pre id="gameInfo"></pre>
+
+    <script>
+  async function loadQuote() {
+    try {
+      const response = await fetch("https://zenquotes.io/api/random");
+      const data = await response.json();
+      const quote = data[0].q;
+      const author = data[0].a;
+      document.getElementById("quoteBox").textContent = `"${quote}" — ${author}`;
+    } catch (err) {
+      console.error("Failed to load quote:", err);
+      document.getElementById("quoteBox").textContent =
+        "Just win the game bro.";
+    }
+  }
+
+  loadQuote();
+  setInterval(loadQuote, 15000);
+
+</script>
+
 </body>
 </html>
